@@ -135,8 +135,6 @@ class HBNBCommand(cmd.Cmd):
             args_dict = {}
             for i in args2[0].split(" "):
                 key, value = i.split("=")
-                if "\'" in value:
-                    return
                 print(value)
                 value = value.replace('"', "")
                 value = value.replace("_", " ")
@@ -147,7 +145,7 @@ class HBNBCommand(cmd.Cmd):
                 args_dict[key] = value
         print(args_dict)
         new_instance = HBNBCommand.classes[args[0]](**args_dict)
-        storage.save
+        storage.save()
         print(new_instance.id)
 
     def help_create(self):
