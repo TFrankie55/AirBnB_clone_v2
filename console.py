@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Console Module """
 import cmd
+from hashlib import new
 import sys
 from models.base_model import BaseModel
 from models.__init__ import storage
@@ -10,6 +11,13 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+
+def isfloat(num):
+    try:
+        float(num)
+        return True
+    except ValueError:
+        return False
 
 
 class HBNBCommand(cmd.Cmd):
@@ -115,16 +123,29 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
+        args = args.partition(" ")
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
+        new_instance = HBNBCommand.classes[args[0]]()
         storage.save()
+        if args[2] != '':
+            args2 = args[2:]
+            args_dict = storage.all()[args[0]+"."+new_instance.id]
+            for i in args2[0].split(" "):
+                key, value = i.split("=")
+                value = value.replace('"', "")
+                value = value.replace("_", " ")
+                if value.isnumeric() and value[0] != "0":
+                    value = int(value)
+                elif isfloat(value) and value[0] != "0":
+                    value = float(value)
+                args_dict.__dict__.update({key:value})
+            args_dict.save()
         print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -277,7 +298,9 @@ class HBNBCommand(cmd.Cmd):
                 att_name = args[1:second_quote]
                 args = args[second_quote + 1:]
 
+            print("first",args)
             args = args.partition(' ')
+            print("second",args)
 
             # if att_name was not quoted arg
             if not att_name and args[0] is not ' ':
@@ -286,15 +309,18 @@ class HBNBCommand(cmd.Cmd):
             if args[2] and args[2][0] is '\"':
                 att_val = args[2][1:args[2].find('\"', 1)]
 
+            print(att_val)   
             # if att_val was not quoted arg
             if not att_val and args[2]:
                 att_val = args[2].partition(' ')[0]
 
             args = [att_name, att_val]
+            print(args)
 
         # retrieve dictionary of current objects
         new_dict = storage.all()[key]
-
+        print(key)
+        print(new_dict)
         # iterate through attr names and values
         for i, att_name in enumerate(args):
             # block only runs on even iterations
