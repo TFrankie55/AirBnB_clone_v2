@@ -132,19 +132,6 @@ class HBNBCommand(cmd.Cmd):
             return
         new_instance = HBNBCommand.classes[args[0]]()
         storage.save()
-        if args[2] != '':
-            args2 = args[2:]
-            args_dict = storage.all()[args[0]+"."+new_instance.id]
-            for i in args2[0].split(" "):
-                key, value = i.split("=")
-                value = value.replace('"', "")
-                value = value.replace("_", " ")
-                if value.isnumeric() and value[0] != "0":
-                    value = int(value)
-                elif isfloat(value) and value[0] != "0":
-                    value = float(value)
-                args_dict.__dict__.update({key:value})
-            args_dict.save()
         print(new_instance.id)
 
     def help_create(self):
