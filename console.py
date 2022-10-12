@@ -128,11 +128,9 @@ class HBNBCommand(cmd.Cmd):
             if not args:
                 raise SyntaxError()
             command = shlex.split(args)
-            print("command",command)
             # print(command)
             # create the object like this => eval(BaseModel())
             obj = eval("{}()".format(command[0]))
-            print("object", obj)
             # populate the object's parameters
             for param in command[1:]:
                 p = param.split("=")

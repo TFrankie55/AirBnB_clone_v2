@@ -9,7 +9,6 @@ from sqlalchemy import Column, Integer, String, DATETIME
 Base = declarative_base()
 class BaseModel:
     """A base class for all hbnb models"""
-    print("befor base object")
     id = Column(String(60), primary_key=True, nullable=False, unique=True)
     created_at = Column(DATETIME, default=datetime.utcnow(), nullable=False)
     updated_at = Column(DATETIME, default=datetime.utcnow(), nullable=False)
@@ -47,8 +46,6 @@ class BaseModel:
         """Convert instance into dict format"""
         dictionary = {}
         dictionary.update(self.__dict__)
-        if dictionary.get('_sa_instance_state') != None:
-            print(dictionary["_sa_instance_state"])
         dictionary.update({'__class__':
                           (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
