@@ -2,6 +2,7 @@
 """ Console Module """
 import cmd
 from hashlib import new
+import shlex
 import sys
 from models.base_model import BaseModel
 from models.__init__ import storage
@@ -122,31 +123,29 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class"""
-        args = args.partition(" ")
-        if not args:
+        """ Create an object of any class """
+        try:
+            if not args:
+                raise SyntaxError()
+            command = shlex.split(args)
+            print("command",command)
+            # print(command)
+            # create the object like this => eval(BaseModel())
+            obj = eval("{}()".format(command[0]))
+            print("object", obj)
+            # populate the object's parameters
+            for param in command[1:]:
+                p = param.split("=")
+                p[1] = p[1].strip('"')
+                p[1] = p[1].replace('_', ' ')
+                setattr(obj, p[0], p[1])
+            obj.save()
+            print("{}".format(obj.id))
+        except SyntaxError:
             print("** class name missing **")
-            return
-        elif args[0] not in HBNBCommand.classes:
+        except NameError:
             print("** class doesn't exist **")
-            return
-        new_instance = HBNBCommand.classes[args[0]]()
-        storage.save()
-        if args[2] != '':
-            args2 = args[2:]
-            args_dict = storage.all()[args[0] + "." + new_instance.id]
-            for i in args2[0].split(" "):
-                key, value = i.split("=")
-                value = value.replace('"', "")
-                value = value.replace("_", " ")
-                if value.isnumeric() and value[0] != "0":
-                    value = int(value)
-                elif isfloat(value) and value[0] != "0":
-                    value = float(value)
-                args_dict.__dict__.update({key:value})
-            args_dict.save()
-        storage.save()
-        print(new_instance.id)
+        # new_instance = HBNBCommand.classes[args]()
 
     def help_create(self):
         """ Help information for the create method """
