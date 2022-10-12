@@ -9,4 +9,4 @@ from models.place import place_amenity
 
 class Amenity(BaseModel, Base):
     __tablename__ = "amenities"
-    name = Column(String(128))
+    name = Column(String(128), nullable=False)
