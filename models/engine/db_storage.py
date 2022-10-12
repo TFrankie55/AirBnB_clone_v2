@@ -12,11 +12,8 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-from sqlalchemy.ext.declarative import declarative_base
 import os
-
-Base = declarative_base()
-
+from models.base_model import Base
 
 class DBStorage:
     __engine: None
@@ -37,9 +34,7 @@ class DBStorage:
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
         if cls != None:
-            rows = self.__session.query(cls).all()
-            return {"{}.{}".format(type(obj).__name__, obj.id): obj for obj in
-                    rows}
+            objects = self.__session.query(cls).all()
         else:
             c = [City, Amenity, User, State, Place, Review]
             objects = []
