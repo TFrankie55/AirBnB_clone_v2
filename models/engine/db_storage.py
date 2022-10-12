@@ -45,7 +45,6 @@ class DBStorage:
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
-        print(obj)
         self.__session.add(obj)
 
     def save(self):
