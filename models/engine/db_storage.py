@@ -3,6 +3,7 @@
 create DBStorage
 """
 
+from requests import delete
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.user import User
@@ -28,7 +29,7 @@ class DBStorage:
         db = os.getenv("HBNB_MYSQL_DB")
         self.__engine = create_engine(
             f"mysql+mysqldb://{user}:{password}@{host}/{db}", pool_pre_ping=True, echo=True)
-        
+
         if os.getenv("HBNB_ENV") == "test":
             Base.metadata.drop_all(self.__engine)
 
@@ -36,7 +37,7 @@ class DBStorage:
         if cls != None:
             rows = self.__session.query(cls).all()
             return {"{}.{}".format(type(obj).__name__, obj.id): obj for obj in
-                rows}
+                    rows}
         else:
             c = [City, Amenity, User, State, Place, Review]
             objects = []
@@ -45,13 +46,16 @@ class DBStorage:
         return {"{}.{}".format(type(obj).__name__, obj.id): obj for obj in
                 objects}
 
-
     def new(self, obj):
         print(obj)
         self.__session.add(obj)
 
     def save(self):
         self.__session.commit()
+
+    def delete(self, obj=None):
+        if obj != None:
+            self.__session.delete(obj)
 
     def reload(self):
         Base.metadata.create_all(self.__engine)
