@@ -46,14 +46,18 @@ class Place(BaseModel, Base):
 
         @property
         def amenities(self):
-            """ Gets a list of all cities in state """
-            from models.amenity import Amenity
-            return [amenities for amenities in models.storage.all(Amenity).values() if
-                    self.id == amenities.place_id]
+            """ Gets all amenities associated with Place """
+            list_amenities = []
+            for amenity in models.storage.all("amenities").values:
+                if self.id == amenity.place_id:
+                    list_amenities.append(amenity)
+            return list_amenities
 
         @amenities.setter
         def amenities(self, obj):
-            if obj.__name__ == "Amenity":
-                print(obj)
+            """ Setter attribute amenities that handles append method for
+            adding an Amenity.id to the attribute amenity_id """
+            if type(obj) == 'Amenity':
+                self.amenity_ids.append(obj.id)
 
     # cities = relationship("City", back_populates="places")
