@@ -20,4 +20,12 @@ class Place(BaseModel, Base):
     longitude = Column(Float)
     amenity_ids = []
 
+    if getenv("HBNB_TYPE_STORAGE") == "db":
+        reviews = relationship("Review", backref="place",
+                cascade="all, delete-orphan")
+        def reviews(self):
+            """ Gets a list of all cities in state """
+            return [reviews for reviews in models.storage.all(Review).values() if
+                    self.id == reviews.place_id]
+
     # cities = relationship("City", back_populates="places")
