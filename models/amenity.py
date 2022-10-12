@@ -10,7 +10,3 @@ from models.place import place_amenity
 class Amenity(BaseModel, Base):
     __tablename__ = "amenities"
     name = Column(String(128))
-
-    if getenv("HBNB_TYPE_STORAGE") == "db":
-        place_amenities = relationship(
-            "Place", secondary=place_amenity,  backref="amenity")
