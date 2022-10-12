@@ -28,6 +28,7 @@ class FileStorage:
         else:
             at_dict = {}
             for k, v in FileStorage.__objects.items():
+                print(cls.__name__)
                 if cls.__name__ == v.to_dict()["__class__"]:
                     at_dict[k] = v
             return at_dict
@@ -49,6 +50,7 @@ class FileStorage:
         """delete a key for __objects"""
         if obj != None:
             key = obj.to_dict()['__class__'] + '.' + obj.id
+            print(key)
             del self.__objects[key]
 
     def reload(self):
