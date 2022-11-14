@@ -14,7 +14,8 @@ app = Flask(__name__)
 def hello(strict_slashes=False):
     """Displays 'Hello HBNB!'"""
     return "Hello HBNB!"
-  
+
+
 @app.route('/hbnb')
 def hello(strict_slashes=False):
     """Displays 'HBNB'"""
