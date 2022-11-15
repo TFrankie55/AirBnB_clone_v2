@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-""" A script that starts a simple Flask web app.
-    The app listens on 0.0.0.0, port 5000.
+""" Starts a simple Flask web app.
+    Listens on 0.0.0.0, port 5000.
     Routes:
         /: Displays 'Hello HBNB!'
         /hbnb: Displays 'HBNB'
