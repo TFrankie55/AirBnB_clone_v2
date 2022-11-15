@@ -29,6 +29,7 @@ def hello_text(text, strict_slashes=False):
     return "C {}".format(text.replace('_', ' '))
 
 
+@app.route("/python", strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def hello_python(text='is cool'):
     """Displays 'Python' followed by <text>"""
