@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """ A script that start a Flash web application.
     It's listening on 0.0.0.0, port 5000
-    Routes:
-    /: Displays 'Hello HBNB!'
-    /hbnb Displays 'HBNB'
+     Routes:
+        /: Displays 'Hello HBNB!'
+        /hbnb: Displays 'HBNB'
 """
 from flask import Flask
 
