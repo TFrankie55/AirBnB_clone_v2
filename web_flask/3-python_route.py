@@ -33,7 +33,7 @@ def hello_text(text, strict_slashes=False):
 def hello_python(text='is cool'):
     """Displays 'Python' followed by <text>"""
     return "Python {}".format(text.replace('_', ' '))
-  
-  
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
