@@ -31,6 +31,7 @@ def c_text():
     """Displays 'C' followed by <text>"""
     return "C {}".format(text.replace('_', ' '))
 
+
 @app.route("/python", strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def python_text(text='is cool'):
@@ -60,5 +61,5 @@ def html_number_div(n):
     return render_template('6-number_odd_or_even.html', n=n, type=type)
 
 
-if __name__ == "__main__"
+if __name__ == "__main__":
     app.run(host="0.0.0.0")
